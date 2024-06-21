@@ -28,8 +28,84 @@ namespace ZombieShooter1
         int score;
         List<PictureBox> zombiesList = new List<PictureBox>();
 
+        private void GameScreen_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (gameOver == true)
+            {
+                return;
+            }
 
-        private void MainTimerEvent(object sender, EventArgs e)
+            if (e.KeyCode == Keys.Left)
+            {
+                goLeft = true;
+                facing = "left";
+                player.Image = Properties.Resources.left;
+            }
+
+            if (e.KeyCode == Keys.Right)
+            {
+                goRight = true;
+                facing = "right";
+                player.Image = Properties.Resources.right;
+            }
+
+            if (e.KeyCode == Keys.Up)
+            {
+                goUp = true;
+                facing = "up";
+                player.Image = Properties.Resources.up;
+            }
+
+            if (e.KeyCode == Keys.Down)
+            {
+                goDown = true;
+                facing = "down";
+                player.Image = Properties.Resources.down;
+            }
+        }
+
+        private void GameScreen_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Left)
+            {
+                goLeft = false;
+            }
+
+            if (e.KeyCode == Keys.Right)
+            {
+                goRight = false;
+            }
+
+            if (e.KeyCode == Keys.Up)
+            {
+                goUp = false;
+            }
+
+            if (e.KeyCode == Keys.Down)
+            {
+                goDown = false;
+            }
+
+            if (e.KeyCode == Keys.Space && ammo > 0 && gameOver == false)
+            {
+                ammo--;
+                ShootBullet(facing);
+
+
+                if (ammo < 1)
+                {
+                    DropAmmo();
+                }
+            }
+
+            if (e.KeyCode == Keys.Enter && gameOver == true)
+            {
+                EndGame();
+            }
+
+        }
+
+        private void GameTimer_Tick(object sender, EventArgs e)
         {
             if (playerHealth > 1)
             {
@@ -62,8 +138,6 @@ namespace ZombieShooter1
                 player.Top += speed;
             }
 
-
-
             foreach (Control x in this.Controls)
             {
                 if (x is PictureBox && (string)x.Tag == "ammo")
@@ -76,7 +150,6 @@ namespace ZombieShooter1
 
                     }
                 }
-
 
                 if (x is PictureBox && (string)x.Tag == "zombie")
                 {
@@ -131,94 +204,12 @@ namespace ZombieShooter1
             }
         }
 
-        private void KeyIsDown(object sender, KeyEventArgs e)
-        {
-
-            if (gameOver == true)
-            {
-                return;
-            }
-
-            if (e.KeyCode == Keys.Left)
-            {
-                goLeft = true;
-                facing = "left";
-                player.Image = Properties.Resources.left;
-            }
-
-            if (e.KeyCode == Keys.Right)
-            {
-                goRight = true;
-                facing = "right";
-                player.Image = Properties.Resources.right;
-            }
-
-            if (e.KeyCode == Keys.Up)
-            {
-                goUp = true;
-                facing = "up";
-                player.Image = Properties.Resources.up;
-            }
-
-            if (e.KeyCode == Keys.Down)
-            {
-                goDown = true;
-                facing = "down";
-                player.Image = Properties.Resources.down;
-            }
-
-
-
-        }
-
-        private void KeyIsUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Left)
-            {
-                goLeft = false;
-            }
-
-            if (e.KeyCode == Keys.Right)
-            {
-                goRight = false;
-            }
-
-            if (e.KeyCode == Keys.Up)
-            {
-                goUp = false;
-            }
-
-            if (e.KeyCode == Keys.Down)
-            {
-                goDown = false;
-            }
-
-            if (e.KeyCode == Keys.Space && ammo > 0 && gameOver == false)
-            {
-                ammo--;
-                ShootBullet(facing);
-
-
-                if (ammo < 1)
-                {
-                    DropAmmo();
-                }
-            }
-
-            if (e.KeyCode == Keys.Enter && gameOver == true)
-            {
-                RestartGame();
-            }
-
-        }
-
         private void ShootBullet(string direction)
         {
             Bullet shootBullet = new Bullet();
             shootBullet.direction = direction;
             shootBullet.bulletLeft = player.Left + (player.Width / 2);
             shootBullet.bulletTop = player.Top + (player.Height / 2);
-            shootBullet.MakeBullet(this);
         }
 
         private void MakeZombies()
@@ -228,7 +219,7 @@ namespace ZombieShooter1
             zombie.Image = Properties.Resources.zdown;
             zombie.Left = randNum.Next(0, 900);
             zombie.Top = randNum.Next(0, 800);
-            zombie.SizeMode = PictureBoxSizeMode.AutoSize;
+            zombie.SizeMode = PictureBoxSizeMode.StretchImage;
             zombiesList.Add(zombie);
             this.Controls.Add(zombie);
             player.BringToFront();
@@ -240,7 +231,7 @@ namespace ZombieShooter1
 
             PictureBox ammo = new PictureBox();
             ammo.Image = Properties.Resources.ammo_Image;
-            ammo.SizeMode = PictureBoxSizeMode.AutoSize;
+            ammo.SizeMode = PictureBoxSizeMode.StretchImage;
             ammo.Left = randNum.Next(10, this.ClientSize.Width - ammo.Width);
             ammo.Top = randNum.Next(60, this.ClientSize.Height - ammo.Height);
             ammo.Tag = "ammo";
@@ -248,11 +239,7 @@ namespace ZombieShooter1
 
             ammo.BringToFront();
             player.BringToFront();
-
-
-
         }
-
         private void RestartGame()
         {
             player.Image = Properties.Resources.up;
@@ -280,6 +267,17 @@ namespace ZombieShooter1
             ammo = 10;
 
             GameTimer.Start();
+        }
+
+        private void EndGame()
+        {
+            Form f = this.FindForm();
+            f.Controls.Remove(this);
+
+            EndScreen endScreen = new EndScreen();
+            f.Controls.Add(endScreen);
+
+            endScreen.Location = new Point((this.Width - endScreen.Width) / 2, (this.Height - endScreen.Height) / 2);
         }
     }
 }

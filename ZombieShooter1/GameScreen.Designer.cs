@@ -40,7 +40,7 @@
             // 
             // healthBar
             // 
-            this.healthBar.Location = new System.Drawing.Point(1094, 127);
+            this.healthBar.Location = new System.Drawing.Point(1062, 45);
             this.healthBar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.healthBar.Name = "healthBar";
             this.healthBar.Size = new System.Drawing.Size(280, 35);
@@ -52,7 +52,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(970, 127);
+            this.label1.Location = new System.Drawing.Point(944, 45);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(123, 33);
@@ -64,7 +64,7 @@
             this.txtScore.AutoSize = true;
             this.txtScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtScore.ForeColor = System.Drawing.Color.Black;
-            this.txtScore.Location = new System.Drawing.Point(558, 127);
+            this.txtScore.Location = new System.Drawing.Point(566, 45);
             this.txtScore.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.txtScore.Name = "txtScore";
             this.txtScore.Size = new System.Drawing.Size(110, 33);
@@ -76,7 +76,7 @@
             this.txtAmmo.AutoSize = true;
             this.txtAmmo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtAmmo.ForeColor = System.Drawing.Color.Black;
-            this.txtAmmo.Location = new System.Drawing.Point(26, 127);
+            this.txtAmmo.Location = new System.Drawing.Point(34, 45);
             this.txtAmmo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.txtAmmo.Name = "txtAmmo";
             this.txtAmmo.Size = new System.Drawing.Size(139, 33);
@@ -85,12 +85,13 @@
             // 
             // player
             // 
+            this.player.BackColor = System.Drawing.Color.Transparent;
             this.player.Image = global::ZombieShooter1.Properties.Resources.up;
-            this.player.Location = new System.Drawing.Point(598, 659);
+            this.player.Location = new System.Drawing.Point(642, 627);
             this.player.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.player.Name = "player";
-            this.player.Size = new System.Drawing.Size(240, 290);
-            this.player.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.player.Size = new System.Drawing.Size(100, 140);
+            this.player.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.player.TabIndex = 6;
             this.player.TabStop = false;
             // 
@@ -98,6 +99,7 @@
             // 
             this.GameTimer.Enabled = true;
             this.GameTimer.Interval = 20;
+            this.GameTimer.Tick += new System.EventHandler(this.GameTimer_Tick);
             // 
             // GameScreen
             // 
@@ -111,6 +113,8 @@
             this.Controls.Add(this.txtAmmo);
             this.Name = "GameScreen";
             this.Size = new System.Drawing.Size(1386, 1017);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GameScreen_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GameScreen_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.player)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

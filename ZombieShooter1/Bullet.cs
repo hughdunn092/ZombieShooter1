@@ -10,7 +10,6 @@ namespace ZombieShooter1
 {
     internal class Bullet
     {
-
         public string direction;
         public int bulletLeft;
         public int bulletTop;
@@ -71,11 +70,6 @@ namespace ZombieShooter1
                 bulletTimer = null;
                 bullet = null;
             }
-
-
-
         }
-
-
     }
 }
